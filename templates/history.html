@@ -1,0 +1,134 @@
+{% extends "layout.html" %}
+{% block title %}{{title}}{% endblock %}
+{% block heading %}
+{{ super() }}
+{% endblock %}
+{% block content %}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+ <!-- Bootstrap CSS -->
+
+ <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+ <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+ <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+ <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+ <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+ <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+ <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script>
+    $(function() {
+      $('input[name="datetimes"]').daterangepicker({
+        timePicker: true,
+        timePickerIncrement: 30,
+        startDate: moment().startOf('hour'),
+        timePicker24Hour: true,
+        endDate: moment().startOf('hour').add(32, 'hour'),
+        locale: {
+          format: 'YYYY-MM-DD H:mm:00'
+        }
+      });
+    });
+    </script>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<script src="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.js"></script>
+<script src="https://unpkg.com/bootstrap-table@1.16.0/dist/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.16.0/dist/bootstrap-table.min.css">  
+<link rel="stylesheet" type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.16.0/extensions/filter-control/bootstrap-table-filter-control.css">
+<style>
+#DRangeForm {display:inline-block;} 
+#CSVForm {display:inline-block; float:right;}
+ th,td{
+     font-size:70%;
+
+ }
+</style>
+
+<div>
+    </div>
+<div class="d-flex justify-content-center">
+    <div class="alert alert-secondary" role="alert">
+      <h5> STATISTICS <a href="/history/{{portId}}/"><svg class="bi bi-arrow-counterclockwise" width="1em" height="1em" viewBox="0 0 16 16"
+        fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd"
+          d="M12.83 6.706a5 5 0 00-7.103-3.16.5.5 0 11-.454-.892A6 6 0 112.545 5.5a.5.5 0 11.91.417 5 5 0 109.375.789z"
+          clip-rule="evenodd" />
+        <path fill-rule="evenodd"
+          d="M7.854.146a.5.5 0 00-.708 0l-2.5 2.5a.5.5 0 000 .708l2.5 2.5a.5.5 0 10.708-.708L5.707 3 7.854.854a.5.5 0 000-.708z"
+          clip-rule="evenodd" />
+      </svg></a></h5>
+    </div>
+  </div>
+<body>
+    <div>
+    <div class="form-group">
+        {%from "_macro.html" import render_field%}
+    <form id='DRangeForm' disabled="disabled" action="/history/{{portId}}/" method="post">
+        <input type="hidden" name="csrf_token" value={{csrf_token()}}>
+        <LABEL><H6>SELECT DATE RANGE TO SHOW &nbsp;</H6></LABEL>
+        {#render_field(form.datetimes)#}
+        <input type="text" id="datetimes" name="datetimes" size="40" onkeydown="event.preventDefault()">
+        <button type="submit" role="btnFetch" class="btn btn-secondary">Show</button>    
+        <a href="/history/{{portId}}/" role="button" class="btn btn-secondary">Clear</a>
+    </form>    
+    {%from "_macro.html" import render_field%}
+        <form id='CSVForm' action="/FileCSV" method="post">
+            <input type="hidden" name="csrf_token" value={{csrf_token()}}>
+            <button  class="btn btn-secondary"  type="submit" value="EXPORT">
+              EXPORT CSV
+            </button>
+        </form>
+        </div>
+            
+            <table id="table"
+                data-toggle="table"
+                data-filter-control="false"
+                data-show-search-clear-button="true"
+                data-sortable="true"
+                classes="table-sm"
+                data-pagination="true"
+                data-show-columns="false"
+                data-show-columns-toggle-all="false"
+                class="table table-striped">
+          <thead>
+            <tr>
+                <th data-field="ne" data-filter-control="select" data-sortable="true">NE</th>
+                <th data-field="ip" data-filter-control="select" data-sortable="true">IP</th>
+                <th data-field="name" data-filter-control="select" data-sortable="true">Name</th>
+                <th data-field="inOctets" data-filter-control="select" data-sortable="true">In Octets</th>
+                <th data-field="inErrors" data-filter-control="select" data-sortable="true">In Errors</th>
+                <th data-field="outOctets" data-filter-control="select" data-sortable="true">Out Octets</th>
+                <th data-field="outErrors" data-filter-control="select" data-sortable="true">Out Errors</th>
+                <th data-field="discards" data-filter-control="select" data-sortable="true">Discards</th>
+                <th data-field="time" data-filter-control="select" data-sortable="true">Time</th>
+                <th data-field="idPort" data-filter-control="select" data-sortable="true">ID Port</th>
+            </tr>
+          </thead>
+          <tbody >
+              {%for row in tableA%}
+            <tr>
+              <td>{{row.ne}}</td>
+              <td>{{row.ip}}</td>
+              <td>{{row.name}}</td>
+              <td>{{row.inOctets}}</td>
+              <td>{{row.inErrors}}</td>
+              <td>{{row.outOctets}}</td>
+              <td>{{row.outErrors}}</td>
+              <td>{{row.discards}}</td>
+              <td>{{row.time}}</td>
+              <td>{{row.idPort}}</td>
+            </tr>
+            {%endfor %}
+          </tbody>
+        </table>
+        
+        <div class="container" align="center">
+            <embed type="image/svg+xml" src={{graph_data|safe}} style='max-width:700px' />
+            <!--embed type="image/svg+xml" src={{grapho_data|safe}} style='max-width:800px' /-->
+        </div>
+      </div>
+      
+</body>
+{% endblock %}

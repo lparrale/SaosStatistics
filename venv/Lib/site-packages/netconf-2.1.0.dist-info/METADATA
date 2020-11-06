@@ -1,0 +1,47 @@
+Metadata-Version: 2.1
+Name: netconf
+Version: 2.1.0
+Summary: Netconf server and client library.
+Home-page: https://github.com/choppsv1/netconf/
+Author: Christian Hopps
+Author-email: chopps@gmail.com
+License: Apache-2
+Platform: UNKNOWN
+Requires-Dist: lxml (>=3.1.0)
+Requires-Dist: monotonic (>=1.3)
+Requires-Dist: paramiko (>=1.10.1)
+Requires-Dist: sshutil (>=1.5.0)
+Requires-Dist: backports.socketpair (>=3.5.0.2) ; (sys.platform=="win32" and python_version<"3.5")
+
+A Netconf Client/Server Library
+===============================
+
+This package supports creating both netconf clients and servers. It also
+provides a CLI netconf client utility. An example server is included under
+the `example` subdirectory.
+
+Documentation is available at: http://netconf.readthedocs.io/
+
+The following modules are present:
+
+- ``__main__`` - Netconf CLI client utility.
+- ``base`` - Shared netconf support classes.
+- ``error`` - Netconf error classes.
+- ``client`` - Netconf client classes.
+- ``server`` - Netconf server classes.
+- ``util`` - Netconf utility functions.
+
+
+master branch status:
+
+.. image:: https://travis-ci.org/choppsv1/netconf.svg?branch=master
+   :target: https://travis-ci.org/choppsv1/netconf?branch=master
+
+.. image:: https://coveralls.io/repos/choppsv1/netconf/badge.svg?branch=master&service=github
+   :target: https://coveralls.io/github/choppsv1/netconf?branch=master
+
+.. image:: https://readthedocs.org/projects/netconf/badge/?version=latest
+   :target: http://netconf.readthedocs.io/en/latest/
+
+
+

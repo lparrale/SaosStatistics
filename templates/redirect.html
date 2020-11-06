@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block title %}{{title}}{% endblock %}
+{% block heading %}
+
+<head>
+    <script>
+        setTimeout(function () { window.location = "/stats/{{red}}/{{pt}}"; }, 50)      
+    </script>
+
+</head>
+{{ super() }}
+{% endblock %}
+{% block content %}
+
+<body>
+    <div class="container">
+        <div class="alert alert-secondary" role="alert">
+            <div class="d-flex align-items-center">
+                <strong>Loading Statistics...</strong>
+                <div class="spinner-border ml-auto" role="status" aria-hidden="true"></div>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock %}
